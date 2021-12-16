@@ -1,0 +1,11 @@
+server:
+  port: 9707
+
+spring:
+  application:
+    name: iotonix-tenant-profile
+
+  datasource:
+    url: jdbc:postgresql://10.0.253.226:5432/tenant_management
+    username: admin_iox
+    password: dtSDD@a1t2022
