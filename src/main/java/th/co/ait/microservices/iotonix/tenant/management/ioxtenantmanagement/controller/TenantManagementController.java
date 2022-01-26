@@ -37,6 +37,7 @@ public class TenantManagementController {
     @PostMapping( value = "/create")
     public ResponseEntity<Object> createTenantProfile(@RequestBody TenantProfileRequest tenantProfileRequest ){
         TenantProfile tenantProfile = convertDto( tenantProfileRequest  );
+        tenantProfile.setTenantKey( tenantProfileRequest.getShortletter()  );
         return  ResponseEntity.ok(  tenantManagementService.addTenantProfile( tenantProfile ) );
     }
 
@@ -50,6 +51,8 @@ public class TenantManagementController {
     private TenantProfile convertDto( TenantProfileRequest tenantProfileRequest ){
         return  TenantProfile.builder()
                 .tenantId(  tenantProfileRequest.getId() != null ?  UUID.fromString( tenantProfileRequest.getId() ) : null )
+                .tenantName( tenantProfileRequest.getName()  )
+                .tenantKey( tenantProfileRequest.getKey()  )
                 .company( tenantProfileRequest.getCompany() )
                 .tel( tenantProfileRequest.getTel())
                 .domain( tenantProfileRequest.getDomain() )

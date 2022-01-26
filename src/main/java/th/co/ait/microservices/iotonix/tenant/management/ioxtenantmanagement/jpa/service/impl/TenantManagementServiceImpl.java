@@ -34,11 +34,13 @@ public class TenantManagementServiceImpl  implements TenantManagementService  {
     @Override
     @Transactional( propagation = Propagation.REQUIRES_NEW ,  rollbackFor = Exception.class )
     public TenantProfile addTenantProfile( TenantProfile tenantProfile ){
-        if( tenantProfileRepository.existsTenantProfileByTenantName(  tenantProfile.getTenantName()  )  ){
+       Boolean exists =  tenantProfileRepository.existsTenantProfileByTenantName(  tenantProfile.getTenantName()  );
+        if( exists != null  && exists == true ){
             return  null;
         }else{
-            tenantProfile.setTenantKey(  RandomStringUtils.random(8, true, true)  );
+            tenantProfile.setTenantKey( tenantProfile.getTenantKey() +  RandomStringUtils.random(3, true, true)  );
             tenantProfile.setCreatedDate(  LocalDateTime.now()  );
+            tenantProfile.setIsactive(true);
             return tenantProfileRepository.save(  tenantProfile);
         }
     }

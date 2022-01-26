@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface TenantProfileRepository extends CrudRepository<TenantProfile, UUID> {
 
-    @Query( "SELECT  DISTINCT A.tenant_name FROM tenant_profile A WHERE A.tenantName = :tenant_name")
+    @Query( value = "SELECT DISTINCT A.tenant_name FROM tenant_profile A WHERE A.tenant_name = :tenant_name", nativeQuery = true )
      Boolean existsTenantProfileByTenantName( @Param( "tenant_name") String tenant_name );
 
 }

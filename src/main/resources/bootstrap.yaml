@@ -1,0 +1,42 @@
+server:
+  port: 9707
+
+spring:
+  application:
+    name: iotonix-tenant-profile
+
+  jpa:
+    show-sql: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://10.0.253.226:5432/tenant_management
+    username: admin_iox
+    password: dtSDD@a1t2022
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://10.0.253.238:8761/eureka/
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+
+  health:
+    ldap:
+      enabled: false
+  security:
+    enabled: false
+
+  endpoints:
+    web:
+      exposure:
+        include: restart,health

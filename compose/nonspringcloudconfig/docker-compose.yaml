@@ -1,0 +1,14 @@
+version: '3'
+services:
+  iox-tenant-mgmt-app:
+    container_name: iox-tenant-management
+    image: iox-tenant-management:0.0.1
+    restart: always
+    network_mode: "host"
+    env_file:
+      - ioxtenant.env
+    extra_hosts:
+      - "sgwapi.ait.co.th:203.155.13.153"
+#    ports:
+#      - 9011:9011
+
