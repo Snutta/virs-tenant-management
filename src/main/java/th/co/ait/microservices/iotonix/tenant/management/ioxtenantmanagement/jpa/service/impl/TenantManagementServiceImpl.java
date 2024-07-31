@@ -25,6 +25,13 @@ public class TenantManagementServiceImpl  implements TenantManagementService  {
         return tenantProfileRepository.findById( id ).orElse( null );
     }
 
+
+    @Override
+    @Transactional( readOnly = true )
+    public TenantProfile getTenantProfileByTenantName( String tenant_name ){
+      return  tenantProfileRepository.findTenantProfileByTenantName( tenant_name );
+    }
+
     @Override
     @Transactional( readOnly = true )
     public List<TenantProfile> getAllTenantProfiles(){
@@ -34,13 +41,12 @@ public class TenantManagementServiceImpl  implements TenantManagementService  {
     @Override
     @Transactional( propagation = Propagation.REQUIRES_NEW ,  rollbackFor = Exception.class )
     public TenantProfile addTenantProfile( TenantProfile tenantProfile ){
-       Boolean exists =  tenantProfileRepository.existsTenantProfileByTenantName(  tenantProfile.getTenantName()  );
-        if( exists != null  && exists == true ){
+        Boolean result = tenantProfileRepository.existsTenantProfileByTenantName(  tenantProfile.getTenantName()  );
+        if( result != null  && result.booleanValue()  ){
             return  null;
         }else{
-            tenantProfile.setTenantKey( tenantProfile.getTenantKey() +  RandomStringUtils.random(3, true, true)  );
+            tenantProfile.setTenantKey(  RandomStringUtils.random(8, true, true)  );
             tenantProfile.setCreatedDate(  LocalDateTime.now()  );
-            tenantProfile.setIsactive(true);
             return tenantProfileRepository.save(  tenantProfile);
         }
     }
@@ -50,6 +56,10 @@ public class TenantManagementServiceImpl  implements TenantManagementService  {
     public void updateTenantProfile(TenantProfile objT ){
         TenantProfile exists = tenantProfileRepository.findById(   objT.getTenantId() ).orElse( null );
         if( exists != null ){
+            exists.setTenantName(
+                objT.getTenantName() != null && objT.getTenantName().trim().length() > 0  ?
+                    objT.getTenantName() : exists.getTenantName() );
+
             exists.setCompany(
                     objT.getCompany() != null && objT.getCompany().trim().length() > 0  ?
                     objT.getCompany() : exists.getCompany() );

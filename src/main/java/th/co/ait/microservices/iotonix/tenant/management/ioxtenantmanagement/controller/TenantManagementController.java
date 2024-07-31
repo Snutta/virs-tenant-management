@@ -4,6 +4,7 @@ package th.co.ait.microservices.iotonix.tenant.management.ioxtenantmanagement.co
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import th.co.ait.microservices.iotonix.tenant.management.ioxtenantmanagement.dto.TenantNameDto;
 import th.co.ait.microservices.iotonix.tenant.management.ioxtenantmanagement.dto.TenantProfileRequest;
 import th.co.ait.microservices.iotonix.tenant.management.ioxtenantmanagement.jpa.model.TenantProfile;
 import th.co.ait.microservices.iotonix.tenant.management.ioxtenantmanagement.jpa.service.TenantManagementService;
@@ -34,10 +35,15 @@ public class TenantManagementController {
        }
     }
 
+    @PostMapping( value = "/profile" , produces =  { "application/json"} )
+    public ResponseEntity<TenantProfile> getTenantProfileByName(@RequestBody TenantNameDto tenantNameDto ){
+          TenantProfile tenantProfile  =  tenantManagementService.getTenantProfileByTenantName(  tenantNameDto.getTenantname() );
+        return  ResponseEntity.ok(  tenantProfile );
+    }
+
     @PostMapping( value = "/create")
     public ResponseEntity<Object> createTenantProfile(@RequestBody TenantProfileRequest tenantProfileRequest ){
         TenantProfile tenantProfile = convertDto( tenantProfileRequest  );
-        tenantProfile.setTenantKey( tenantProfileRequest.getShortletter()  );
         return  ResponseEntity.ok(  tenantManagementService.addTenantProfile( tenantProfile ) );
     }
 
@@ -50,14 +56,13 @@ public class TenantManagementController {
 
     private TenantProfile convertDto( TenantProfileRequest tenantProfileRequest ){
         return  TenantProfile.builder()
+                .tenantName(tenantProfileRequest.getName() )
                 .tenantId(  tenantProfileRequest.getId() != null ?  UUID.fromString( tenantProfileRequest.getId() ) : null )
-                .tenantName( tenantProfileRequest.getName()  )
-                .tenantKey( tenantProfileRequest.getKey()  )
                 .company( tenantProfileRequest.getCompany() )
                 .tel( tenantProfileRequest.getTel())
                 .domain( tenantProfileRequest.getDomain() )
                 .email( tenantProfileRequest.getEmail() )
-                .isactive( tenantProfileRequest.getIsactive() )
+                .isactive( tenantProfileRequest.getIsactive() == null ?  true :  tenantProfileRequest.getIsactive() )
                 .build();
     }
 

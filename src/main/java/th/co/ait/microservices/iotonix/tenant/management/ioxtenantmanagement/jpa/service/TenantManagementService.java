@@ -12,6 +12,9 @@ public interface TenantManagementService {
     TenantProfile getTenantProfileById(UUID id);
 
     @Transactional( readOnly = true )
+    TenantProfile getTenantProfileByTenantName(String tenant_name);
+
+    @Transactional( readOnly = true )
     List<TenantProfile> getAllTenantProfiles();
 
     @Transactional( propagation = Propagation.REQUIRES_NEW ,  rollbackFor = Exception.class )

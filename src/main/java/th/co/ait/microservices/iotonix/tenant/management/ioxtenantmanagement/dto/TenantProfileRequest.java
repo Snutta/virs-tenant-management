@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class TenantProfileRequest {
     private String id;
-    private String shortletter;
-    private String key;
     private String name;
     private String email;
     private String tel;

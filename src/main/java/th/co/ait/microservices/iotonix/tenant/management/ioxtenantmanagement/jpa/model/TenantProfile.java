@@ -1,5 +1,7 @@
 package th.co.ait.microservices.iotonix.tenant.management.ioxtenantmanagement.jpa.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,13 +26,28 @@ public class TenantProfile {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID tenantId;
 
-    @Column private String tenantKey;
-    @Column private String tenantName;
-    @Column private String domain;
-    @Column private String company;
-    @Column private String tel;
-    @Column private String email;
-    @Column private Boolean isactive;
-    @Column private LocalDateTime createdDate;
+    @Column
+    private String  tenantKey;
+
+    @Column
+    private String tenantName;
+
+    @Column
+    private String domain;
+
+    @Column
+    private String company;
+
+    @Column
+    private String tel;
+
+    @Column
+    private String email;
+
+    @Column
+    private Boolean isactive;
+
+    @Column
+    private LocalDateTime createdDate;
 
 }
